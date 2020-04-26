@@ -36,15 +36,12 @@ export default function AddProject() {
   const [error, setError] = React.useState(false);
   const [basicInfo, setBasicInfo] = useState({});
   const steps = getSteps();
-  
-  useEffect(() => {
-    console.log(completed)
-  }, [completed]);
+
   
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <BasicInfo setBasicInfo/>;
+        return <BasicInfo updateBasicInfo={updateBasicInfo}/>;
       case 1:
         return 'Step 2: What is an ad group anyways?';
       case 2:
@@ -52,6 +49,13 @@ export default function AddProject() {
       default:
         return 'Unknown step';
     }
+  }
+  
+  const updateBasicInfo = (key, value) => {
+    basicInfo[key] = value;
+    setBasicInfo({
+      ...basicInfo,
+    });
   }
 
 
@@ -98,8 +102,8 @@ export default function AddProject() {
     setError(true)
   };
 
-  const handleComplete = (e) => {
-    console.log(e)
+  const handleComplete = () => {
+    console.log(basicInfo)
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -165,7 +169,7 @@ export default function AddProject() {
                     Step {activeStep + 1} already completed
                   </Typography>
                 ) : (
-                  <Button variant="contained" color="primary" type="submit" onClick={e => handleComplete(e)}>
+                  <Button variant="contained" color="primary" type="submit" onClick={handleComplete}>
                     {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}
                   </Button>
                 ))}

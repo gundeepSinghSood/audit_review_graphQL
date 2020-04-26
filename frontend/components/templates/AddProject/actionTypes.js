@@ -1,0 +1,1 @@
+export const UPDATE_BASIC_INFO = 'UPDATE_BASIC_INFO';
