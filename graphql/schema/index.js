@@ -17,9 +17,23 @@ module.exports = buildSchema(`
     
     type Project {
       _id: ID!
-      name: String!
-      industryType: String!
       creator: User!
+      basicInput: Basic!
+      categories: Categories!
+    }
+    
+    type Basic {
+      reviewerEmail: String!
+      reviewerName: String!
+      createdDate: String!
+      projectName: String!
+      clientName: String!
+      phoneNumber: String
+    }
+    
+    type Categories {
+      key: String!
+      name: String!
     }
     
     type AuthData {
@@ -40,8 +54,17 @@ module.exports = buildSchema(`
     }
     
     input ProjectInput {
-      name: String!
-      industryType: String!
+      creatorObjectID: String!
+      basicInput: BasicInput!
+    }
+    
+    input BasicInput {
+      reviewerEmail: String!
+      reviewerName: String!
+      createdDate: String!
+      projectName: String!
+      clientName: String!
+      phoneNumber: String
     }
     
     type RootQuery {
@@ -54,6 +77,8 @@ module.exports = buildSchema(`
       createEvent(eventInput: EventInput): Event
       createUser(userInput: UserInput): User
       createProject(projectInput: ProjectInput): Project
+      updateProject(updatedProjectInput: UpdatedProjectInput): Project
+      createQuestionsByCategories(questionsByCategoriesInput: QuestionsByCategoriesInput): QuestionsByCategories
     }
     
     schema {  

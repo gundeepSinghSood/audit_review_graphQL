@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Container, Paper, Grid, Typography, CardContent, TextField } from '@material-ui/core';
+import { Button, Card, Container, Paper, Grid, Typography, CardContent, TextField, FormControl } from '@material-ui/core';
 
 const BasicInfo = props => {
   const {updateBasicInfo} = props;
@@ -8,7 +8,7 @@ const BasicInfo = props => {
       <Typography color="textSecondary" gutterBottom variant="h4">
           Basic Info
         </Typography>
-        <Typography color="textSecondary" gutterBottom variant="p">
+        <Typography color="textSecondary" gutterBottom variant="subtitle1">
           Reviewer Details
         </Typography>
         <div>
@@ -17,6 +17,8 @@ const BasicInfo = props => {
             label="Reviewer Name"
             margin="normal"
             variant="outlined"
+            autoComplete='off'
+            required
             onChange={(e) => updateBasicInfo('reviewerName', e.target.value)}
           />
           <TextField
@@ -24,6 +26,8 @@ const BasicInfo = props => {
             label="Reviewer Email"
             margin="normal"
             variant="outlined"
+            autoComplete='off'
+            required
             onChange={(e) => updateBasicInfo('reviewerEmail', e.target.value)}
           />
         </div>
@@ -33,6 +37,8 @@ const BasicInfo = props => {
           fullWidth
           margin="normal"
           variant="outlined"
+          autoComplete='off'
+          required
           onChange={(e) => updateBasicInfo('projectName', e.target.value)}
         />
         <TextField
@@ -41,6 +47,8 @@ const BasicInfo = props => {
           fullWidth
           margin="normal"
           variant="outlined"
+          autoComplete='off'
+          required
           onChange={(e) => updateBasicInfo('clientName', e.target.value)}
         />
         <TextField
@@ -49,8 +57,13 @@ const BasicInfo = props => {
           fullWidth
           margin="normal"
           variant="outlined"
+          autoComplete='off'
           onChange={(e) => updateBasicInfo('phoneNumber', e.target.value)}
         />
+        {/* <Button variant="contained" color="primary" type="submit">
+          Complete Step
+        </Button> */}
+
     </Container>
   )
 };

@@ -3,6 +3,19 @@ import App from 'next/app';
 import {Provider} from 'react-redux';
 import withRedux from "next-redux-wrapper";
 import store from '../redux/store';
+import { ThemeProvider } from "@material-ui/styles";
+import {
+  AppBar,
+  CssBaseline,
+  Typography,
+  createMuiTheme
+} from "@material-ui/core";
+
+const theme = createMuiTheme({
+  palette: {
+    type: "dark"
+  }
+});
 
 class MyApp extends App {
 
@@ -18,9 +31,12 @@ class MyApp extends App {
         const {Component, pageProps, store} = this.props;
 
         return (
-            <Provider store={store}>
-                <Component {...pageProps}/>
-            </Provider>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Provider store={store}>
+                    <Component {...pageProps}/>
+                </Provider>
+            </ThemeProvider>
         );
     }
 }

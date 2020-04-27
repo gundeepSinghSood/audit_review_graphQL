@@ -51,6 +51,7 @@ import cookies from 'js-cookie';
       const { data } = resData;
       if(data && (data.login.userId || data.createUser.username)) {
        cookies.set("token", data.login.userId, { expires: 1 }); 
+       console.log(data.login.userId)
        Router.push("/addProject");
       }
     }).catch(err => {

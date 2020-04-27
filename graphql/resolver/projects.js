@@ -1,4 +1,5 @@
 const Project = require('../../models/projects');
+const User = require('../../models/user');
 const {user} = require('./common');
 
 
@@ -13,9 +14,15 @@ const transformProjects = project => {
 module.exports = {
       createProject: async (args) => {
       const project = new Project({
-          name: args.projectInput.name,
-          industryType: args.projectInput.industryType,
-          creator: "5e9cb382c04ffc1d6b84bf70"
+          creator: args.projectInput.creatorObjectID,
+          basicInput: {
+            reviewerEmail: args.projectInput.basicInput.reviewerEmail,
+            reviewerName: args.projectInput.basicInput.reviewerName,
+            createdDate: args.projectInput.basicInput.createdDate,
+            projectName: args.projectInput.basicInput.projectName,
+            clientName: args.projectInput.basicInput.clientName,
+            phoneNumber: args.projectInput.basicInput.phoneNumber
+          }
       });
       let createdProject;
       try {
@@ -24,7 +31,7 @@ module.exports = {
             ...res._doc,
             creator: user.bind(this, res._doc.creator)
             };
-          const userData = await User.findById("5e9cb382c04ffc1d6b84bf70")
+          const userData = await User.findById(args.projectInput.creatorObjectID)
           if(!userData) {
             // there is user present with same name
             throw new Error('user not found')
