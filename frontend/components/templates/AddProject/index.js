@@ -200,7 +200,7 @@ export default function AddProject() {
             </div>
           ) : (
             <div>
-              <FormControl noValidate autoComplete="off" onSubmit={submit}>
+              <div>
                 {getStepContent(activeStep)}
                 <div className={classes.formFotter}>
                   <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
@@ -225,7 +225,7 @@ export default function AddProject() {
                       </Button>
                     ))}
                 </div>
-              </FormControl>
+              </div>
             </div>
           )}
         </div>

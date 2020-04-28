@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Questions.module.css';
+import { useForm } from 'react-hook-form'
 import { makeStyles } from '@material-ui/core/styles';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import { TextField, Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Divider, TextareaAutosize, Container } from '@material-ui/core';
@@ -27,7 +28,9 @@ export default function Question(props) {
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [stepCategories, setStepCategories] = useState([])
+  const [disableNext, setDisableNext] = useState(true);
   const steps = getSteps();
+  const { register, handleSubmit, watch, errors } = useForm()
   
   function getSteps() {
     let newArry = []
@@ -48,7 +51,7 @@ export default function Question(props) {
   const renderQuestions = ques => {
     let elm;
     Object.keys(ques).forEach(categoryQuestion => {
-      elm = ques[categoryQuestion].map(eachQuestion => {
+      elm = ques[categoryQuestion].map((eachQuestion, idx) => {
         return(
           <>
            <Typography color="textSecondary" gutterBottom variant="h6">
@@ -56,9 +59,10 @@ export default function Question(props) {
           </Typography>
           {eachQuestion.type === 'textArea' 
             ? <TextareaAutosize rowsMin={5} colMin={5}/>
-            : <TextField id="outlined-basic" variant="outlined" type={eachQuestion.type} required={eachQuestion.isRequired} />
+            :  <input name={eachQuestion.ques} ref={register({ required: eachQuestion.isRequired })} />
           }
-          <TextField id="outlined-basic" variant="outlined" rows={2} required={eachQuestion.isRequired} />
+          <input name={`priority${idx}`} ref={register({ required: eachQuestion.isRequired })} />
+          {errors.exampleRequired && <span>This field is required</span>}
           </>
         )
       })
@@ -67,10 +71,12 @@ export default function Question(props) {
   }
 
   const handleNext = () => {
+    setDisableNext(true)
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
+    setDisableNext(true)
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -78,9 +84,12 @@ export default function Question(props) {
     setActiveStep(0);
   };
   
-  const submit = e => {
-    console.log(e)
-  }
+  // const submit = e => {
+  //   setDisableNext(false)
+  //   console.log(e)
+  // }
+  
+  const onSubmit = data => { console.log(data) }
 
   return (
     <Container>
@@ -90,13 +99,13 @@ export default function Question(props) {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              <form onSubmit={submit}>
+              <form onSubmit={handleSubmit(onSubmit)} >
                 {getStepContent(index)}
                   <div className={classes.actionsContainer}>
                   <Divider />
                     <div>
                       <Button
-                        disabled={activeStep === 0}
+                        disabled={activeStep === 0 || disableNext}
                         onClick={handleBack}
                         className={classes.button}
                       >
@@ -108,9 +117,11 @@ export default function Question(props) {
                         onClick={handleNext}
                         className={classes.button}
                         type="submit"
+                        disabled={disableNext}
                       >
                         {activeStep === steps && steps.length - 1 ? 'Finish' : 'Next'}
                       </Button>
+                      <input type="submit" />
                     </div>
                   </div>
               </form>
