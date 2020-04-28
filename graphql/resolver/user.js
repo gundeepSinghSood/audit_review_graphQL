@@ -35,6 +35,6 @@ module.exports = {
       expiresIn: '1h'
     });
     
-    return { userId: user.id, token: token, tokenExpire: 1 }
+    return { userId: user.id, token: token, tokenExpire: 1, username: user.username }
   }
 }

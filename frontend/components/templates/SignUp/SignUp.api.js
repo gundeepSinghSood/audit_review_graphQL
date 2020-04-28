@@ -17,6 +17,7 @@ import cookies from 'js-cookie';
         query {
           login(username: "${email}", password: "${password}") {
             userId
+            username
           }
         }
       `
@@ -47,12 +48,11 @@ import cookies from 'js-cookie';
       }
       return res.json();
     }).then(resData => {
-      console.log(resData)
       const { data } = resData;
       if(data && (data.login.userId || data.createUser.username)) {
-       cookies.set("token", data.login.userId, { expires: 1 }); 
-       console.log(data.login.userId)
-       Router.push("/addProject");
+       cookies.set("token", data.login.userId, { expires: 1 });
+       localStorage.setItem('username', data.login.username);
+       Router.push("/dashboard");
       }
     }).catch(err => {
       console.log(err)

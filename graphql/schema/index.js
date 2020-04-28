@@ -38,6 +38,7 @@ module.exports = buildSchema(`
     
     type AuthData {
       userId: ID!
+      username: String!
       token: String!
       tokenExpire: Int!
     }
@@ -67,6 +68,14 @@ module.exports = buildSchema(`
       phoneNumber: String
     }
     
+    input UpdatedProjectInput {
+      test: String!
+    }
+    
+    input QuestionsByCategoriesInput {
+      test: String!
+    }
+    
     type RootQuery {
       events: [Event!]!
       project: [Project!]!
@@ -78,7 +87,7 @@ module.exports = buildSchema(`
       createUser(userInput: UserInput): User
       createProject(projectInput: ProjectInput): Project
       updateProject(updatedProjectInput: UpdatedProjectInput): Project
-      createQuestionsByCategories(questionsByCategoriesInput: QuestionsByCategoriesInput): QuestionsByCategories
+      createQuestionsByCategories(questionsByCategoriesInput: QuestionsByCategoriesInput): Project
     }
     
     schema {  

@@ -8,12 +8,28 @@ import {
   AppBar,
   CssBaseline,
   Typography,
-  createMuiTheme
+  createMuiTheme,
+  useMediaQuery
 } from "@material-ui/core";
 
+
+// const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+// prefersDarkMode ? 'dark' : 'light'
 const theme = createMuiTheme({
   palette: {
-    type: "dark"
+    type: 'light',
+    primary: {
+      light: '#fe414d',
+      main: '#fe414d',
+      dark: '#fe414d',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff7961',
+      main: '#000',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
   }
 });
 
