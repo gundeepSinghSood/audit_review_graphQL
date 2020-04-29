@@ -29,26 +29,54 @@ const validateFirstQuestionSet = (firstQuestionSet) => {
     });
     return firstQuestionSetError;
 }
+const validateQuestionSet = (questionSetErrors) => {
+  // const activeStepLabel = steps[activeStep];
+  const categoryArr = Object.keys(questionSetErrors);
 
-  export const validateAddProjectForm = (formValues, formValidation) => {
-    const { basicInfo, firstQuestionSet } = formValues;
-    // console.log('firstQuestionSet',firstQuestionSet);
+  for(let i = 0; i <categoryArr.length; i+=1) {
+    // if(categoryArr[i] === activeStepLabel){
+    const eachCategory = questionSetErrors[categoryArr[i]];
+      const quesCodeArr = Object.keys(eachCategory);
+      for(let j = 0; j < quesCodeArr.length; j+= 1){
+        const eachQuesCode = quesCodeArr[j];
+          if(eachCategory[eachQuesCode].notes) {
+            return false;
+        }
+      }
+    // }
+  }
+  return true;
+}
+  export const validateAddProjectForm = (formValues, formValidation, stepNumber) => {
+    const { basicInfo, firstQuestionSet, secondQuestionSet } = formValues;
+    let isFormValid = false;;
     let basicInfoError
-    let isBasicInfoValid;
     let firstQuestionSetError;
-    if(basicInfo) {
+    let secondQuestionSetError;
+    
+    if(stepNumber === 0) {
+      if(basicInfo) {
         basicInfoError = validateBasicInfo(basicInfo);
-        isBasicInfoValid = allFalse(basicInfoError);
+        isFormValid = allFalse(basicInfoError);
+      }
+    } else if(stepNumber === 1) {
+      if(firstQuestionSet) {
+        firstQuestionSetError = validateFirstQuestionSet(firstQuestionSet);
+        isFormValid = validateQuestionSet(firstQuestionSetError);
+      }
+    }else if(stepNumber === 2) {
+      if(secondQuestionSet) {
+        secondQuestionSetError = validateFirstQuestionSet(secondQuestionSet);
+        isFormValid = validateQuestionSet(secondQuestionSetError);
+      }
     }
-    if(firstQuestionSet){
-    firstQuestionSetError = validateFirstQuestionSet(firstQuestionSet);
-    }
-    // console.log('firstQuestionSetError', firstQuestionSetError);
     
     return {
       ...formValidation,
-      isFormValid: isBasicInfoValid || false,
+      isFormValid,
       basicInfoError: basicInfoError || undefined,
-      firstQuestionSetError: firstQuestionSetError || undefined
+      firstQuestionSetError,
+      secondQuestionSetError
     }
   }
+

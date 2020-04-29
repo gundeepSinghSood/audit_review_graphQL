@@ -133,20 +133,25 @@ export default function Question(props) {
   }
 
   const handleNext = () => {
-    const formValues = { firstQuestionSet: questionSet[0] };
-    const validity = validateAddProjectForm(formValues, formValidation);
-    let isQuestionSetFormValid ;
+  let formValues;
+    if(qSetIndex === 0) {
+      formValues = { firstQuestionSet: questionSet[0] };
+    } else if(qSetIndex === 1) {
+      formValues = { secondQuestionSet: questionSet[1] };
+    }
+  const validity = validateAddProjectForm(formValues, formValidation, qSetIndex+1);
+  let isQuestionSetFormValid ;
     if(qSetIndex === 0 && validity.firstQuestionSetError) {
       isQuestionSetFormValid = validateQuestionForm(validity.firstQuestionSetError);
-      console.log('after', isQuestionSetFormValid);
-    } else if( qSetIndex === 1) {
+    } else if( qSetIndex === 1 && validity.secondQuestionSetError) {
+    isQuestionSetFormValid = validateQuestionForm(validity.secondQuestionSetError);
     }
     if(isQuestionSetFormValid){
       setDisableNext(true)
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
-    console.log('------------>', questionSet);
-    setFormValidation(validity);
+  console.log('------------>', questionSet);
+  setFormValidation(validity);
   };
 
   const handleBack = () => {

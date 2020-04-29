@@ -81,6 +81,7 @@ function AddProject() {
                   formValidation={formValidation} 
                   validateAddProjectForm={validateAddProjectForm}
                   setFormValidation={setFormValidation}
+                  key={step}
                 />
         case 2:
           return <Question
@@ -91,6 +92,7 @@ function AddProject() {
                   formValidation={formValidation}
                   validateAddProjectForm={validateAddProjectForm}
                   setFormValidation={setFormValidation}
+                  key={step}
                 />
         default:
           return 'Unknown step';
@@ -147,24 +149,37 @@ function AddProject() {
     }
     setError(true)
   };
-
-  const handleComplete = () => {
-    const formValues = { basicInfo };
-    const validity = validateAddProjectForm(formValues, formValidation);
-    if (validity.isFormValid) {
-      // addProjectApi(basicInfo).then(res => {
-        const newCompleted = completed;
-        newCompleted[activeStep] = true;
-        setCompleted(newCompleted);
-        handleNext();
-        setError(false);
-      // }).catch(err => {
-      //   setError(true);
-      // })
+  
+  const checkStepValidity = () => {
+    switch (activeStep) {
+      case 0:
+        return validateAddProjectForm({basicInfo}, formValidation, 0);
+      case 1:
+        return validateAddProjectForm({ firstQuestionSet: questionSet[0] }, formValidation, 1);
+      case 2:
+        return validateAddProjectForm({ secondQuestionSet: questionSet[1] }, formValidation, 2)
+      default:
+        return {};
     }
-    setFormValidation(validity);
-    console.log(formValidation, basicInfo)
-  };
+  }
+
+
+const handleComplete = () => {
+  const validity = checkStepValidity();
+  if (validity.isFormValid) {
+  // addProjectApi(basicInfo).then(res => {
+    const newCompleted = completed;
+    newCompleted[activeStep] = true;
+    setCompleted(newCompleted);
+    handleNext();
+    setError(false);
+  // }).catch(err => {
+  // setError(true);
+  // })
+}
+setFormValidation(validity);
+};
+
 
   const handleReset = () => {
     setActiveStep(0);
