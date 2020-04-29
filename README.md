@@ -6,8 +6,8 @@
 - [Available Scripts](#available-scripts)
   - [npm run dev](#npm-run-dev)
 - [npm packages used](#npm-packages-used)
-  -[backend](#backend-packages)
-  -[frontend](#frontend-packages)
+  - [backend](#backend-packages)
+  - [frontend](#frontend-packages)
 
 
 ## Folder Structure
