@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import { withAuthSync } from '../utils/auth';
 
 const Home = () => (
   <div>
@@ -11,4 +12,4 @@ const Home = () => (
   </div>
 )
 
-export default Home
+export default withAuthSync(Home)
