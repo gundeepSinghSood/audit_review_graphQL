@@ -2,8 +2,10 @@ export const questionRes =
 {
   "questionsByCategories": [
     {
-      "requirementViewpoint": [
+      "categoryName": "requirementViewpoint",
+      "questions": [
         {
+          "quesCode": "requirementViewpoint-0",
           "ques": "What is the project about, type of project and high level scope?",
           "isRequired": true,
           "type": "textArea",
@@ -11,6 +13,7 @@ export const questionRes =
           "notes": ""
         },
         {
+          "quesCode": "requirementViewpoint-1",
           "ques": "Are you clear on the mission, vision and purpose of the project?",
           "isRequired": true,
           "priority": "",
@@ -19,8 +22,10 @@ export const questionRes =
       ]
     },
     {
-      "functionalViewpoint": [
+      "categoryName": "functionalViewpoint",
+      "questions": [
         {
+          "quesCode": "functionalViewpoint-0",
           "ques": "System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
           "isRequired": true,
           "priority": "",
@@ -29,9 +34,11 @@ export const questionRes =
       ]
     },
     {
-      "functionalViewpoint2": [
+      "categoryName": "functionalViewpoint2",
+      "questions": [
         {
-          "ques": "System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
+          "quesCode": "functionalViewpoint2-0",
+          "ques": "2 System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
           "isRequired": true,
           "priority": "",
           "notes": ""
@@ -39,9 +46,11 @@ export const questionRes =
       ]
     },
     {
-      "functionalViewpoint3": [
+      "categoryName": "functionalViewpoint3",
+      "questions": [
         {
-          "ques": "System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
+          "quesCode": "functionalViewpoint3-0",
+          "ques": "3 System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
           "isRequired": true,
           "priority": "",
           "notes": ""
@@ -49,9 +58,11 @@ export const questionRes =
       ]
     },
     {
-      "functionalViewpoint4": [
+      "categoryName": "functionalViewpoint4",
+      "questions": [
         {
-          "ques": "System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
+          "quesCode": "functionalViewpoint4-0",
+          "ques": "4 System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
           "isRequired": true,
           "priority": "",
           "notes": ""

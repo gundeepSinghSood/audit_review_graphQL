@@ -15,6 +15,7 @@ module.exports = {
       createProject: async (args) => {
       const project = new Project({
           creator: args.projectInput.creatorObjectID,
+          reviewerId: args.projectInput.reviewerObjectID,
           basicInput: {
             reviewerEmail: args.projectInput.basicInput.reviewerEmail,
             reviewerName: args.projectInput.basicInput.reviewerName,
@@ -31,13 +32,17 @@ module.exports = {
             ...res._doc,
             creator: user.bind(this, res._doc.creator)
             };
-          const userData = await User.findById(args.projectInput.creatorObjectID)
+          const userData = await User.findById(args.projectInput.creatorObjectID);
+          const reviewerData = await User.findById(args.projectInput.reviewerObjectID);
+          console.log(reviewerData)
           if(!userData) {
             // there is user present with same name
             throw new Error('user not found')
           }
           userData.relatedProjects.push(project);
-          await userData.save()
+          reviewerData.toBeReviewed.push(project);
+          await userData.save();
+          await reviewerData.save();
           return createdProject;
         } catch (err) {
           throw err
@@ -55,4 +60,14 @@ module.exports = {
           throw err;
         }
     },
+    getProjecByID: async (projectID) => {
+      const projectArray = await Project.find({_id: projectID});
+      if(!user) {
+        throw new Error('user does not exist')
+      }
+      console.log(projectArray)
+      return projectArray.map(project => {
+          return transformProjects(project)
+        });
+    }
 }

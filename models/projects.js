@@ -8,6 +8,10 @@ const projectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  reviewerId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   basicInput: {
     reviewerEmail: {
       type: String,

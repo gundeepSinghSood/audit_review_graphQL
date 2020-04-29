@@ -17,6 +17,12 @@ const userSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Project'
     }
+  ],
+  toBeReviewed: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
+    }
   ]
 });
 

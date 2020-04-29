@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
+import styles from './AddProject.module.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, StepLabel, Container, StepButton, Step, Typography, Stepper, FormControl } from '@material-ui/core';
 import Header from '../../molecules/Header';
 import { questionRes } from './question.mock';
 import InfoIcon from '@material-ui/icons/Info';
+import { validateAddProjectForm } from './validation';
+import { addProjectApi } from './addProject.api';
 
 import BasicInfo from '../../molecules/BasicInfo';
 import Question from '../../molecules/Questions';
@@ -35,11 +38,12 @@ function getSteps() {
 
 export default function AddProject() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
+  const [activeStep, setActiveStep] = useState(0);
+  const [completed, setCompleted] = useState({});
   const [error, setError] = React.useState(false);
   const [basicInfo, setBasicInfo] = useState({});
   const [questionSet, setQuestionSet] = useState({});
+  const [formValidation, setFormValidation]= useState({isFormValid:false});
   const steps = getSteps();
   
   useEffect(() => {
@@ -63,40 +67,32 @@ export default function AddProject() {
 
   
   const getStepContent = (step) => {
-    // console.log(questionSet)
     switch (step) {
         case 0:
-          return <BasicInfo updateBasicInfo={updateBasicInfo}/>;
+          return <BasicInfo formValidation={formValidation} updateBasicInfo={updateBasicInfo}/>;
         case 1:
-          console.log('in 1')
-          return <Question questionsByCategories={questionSet[0]}/>
+          return <Question
+                  questionSet={questionSet}
+                  questionsByCategories={questionSet[0]} 
+                  setQuestionSet={setQuestionSet}
+                  qSetIndex={0} 
+                  formValidation={formValidation} 
+                  validateAddProjectForm={validateAddProjectForm}
+                  setFormValidation={setFormValidation}
+                />
         case 2:
-          console.log('in 2')
-          return <Question questionsByCategories={questionSet[1]}/>
+          return <Question
+                  questionSet={questionSet}
+                  questionsByCategories={questionSet[1] }
+                  setQuestionSet={setQuestionSet}
+                  qSetIndex={1}
+                  formValidation={formValidation}
+                  validateAddProjectForm={validateAddProjectForm}
+                  setFormValidation={setFormValidation}
+                />
         default:
-          console.log('in def', step)
           return 'Unknown step';
       }
-    Object.keys(questionSet).forEach(que => {
-      const index = +que+1;
-      console.log(index, step, questionSet[que])
-        // switch (step) {
-        //   case 0:
-        //     return <BasicInfo updateBasicInfo={updateBasicInfo}/>;
-        //     break;
-        //   case index:
-        //     console.log('in 1')
-        //     return <Question questionsByCategories={questionSet[index]}/>
-        //     break;
-        //   case index:
-        //     console.log('in 2')
-        //     return <Question questionsByCategories={questionSet[index]}/>
-        //     break;
-        //   default:
-        //     console.log('in def', step)
-        //     return 'Unknown step';
-        // }
-    });
   }
   
   const updateBasicInfo = (key, value) => {
@@ -151,11 +147,21 @@ export default function AddProject() {
   };
 
   const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-    setError(false);
+    const formValues = { basicInfo };
+    const validity = validateAddProjectForm(formValues, formValidation);
+    if (validity.isFormValid) {
+      // addProjectApi(basicInfo).then(res => {
+        const newCompleted = completed;
+        newCompleted[activeStep] = true;
+        setCompleted(newCompleted);
+        handleNext();
+        setError(false);
+      // }).catch(err => {
+      //   setError(true);
+      // })
+    }
+    setFormValidation(validity);
+    console.log(formValidation, basicInfo)
   };
 
   const handleReset = () => {
@@ -176,7 +182,7 @@ export default function AddProject() {
     <Container>
       <Header/>
       <div className={classes.root}>
-        <Stepper nonLinear activeStep={activeStep}>
+        <Stepper nonLinear activeStep={activeStep} className={`${styles.backgroundRed}`}>
           {steps.map((label, index) => {
             const labelProps = {};
             if (isStepFailed(index)) {

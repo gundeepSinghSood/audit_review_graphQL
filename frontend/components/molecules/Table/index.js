@@ -8,17 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from '../Title';
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(0, 'Sentosa' ),
-  createData(1, 'Finair' ),
-  createData(2, 'Miral' ),
-];
-
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -31,22 +20,33 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Orders(props) {
   const classes = useStyles();
-  const {title} = props;
+  let {title, list} = props;
   return (
     <React.Fragment>
       <Title>{title}</Title>
       <Table size="small">
         <TableHead>
+        {list
+          ?
           <TableRow>
-            <TableCell>Project Title</TableCell>
+            <TableCell>Project Name</TableCell>
+            <TableCell>Project Creator</TableCell>
           </TableRow>
+          : ''
+        }
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-            </TableRow>
-          ))}
+         {list
+            ? list.map((item, idx) => (
+              <TableRow key={idx}>
+                  <TableCell>{item.basicInput.projectName}</TableCell>
+                  <TableCell>{item.creator.username}</TableCell>
+                </TableRow>
+              ))
+            : <TableRow>
+                <TableCell>No Data</TableCell>
+              </TableRow>
+         }
         </TableBody>
       </Table>
     </React.Fragment>

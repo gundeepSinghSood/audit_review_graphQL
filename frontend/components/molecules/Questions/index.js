@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Question(props) {
-   const { questionsByCategories } = props; 
+  const { questionsByCategories, questionSet, qSetIndex, setQuestionSet, formValidation, validateAddProjectForm, setFormValidation } = props; 
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,48 +31,124 @@ export default function Question(props) {
   const [disableNext, setDisableNext] = useState(true);
   const steps = getSteps();
   const { register, handleSubmit, watch, errors } = useForm()
+
   
   function getSteps() {
     let newArry = []
-     questionsByCategories && questionsByCategories.forEach(eachCategory => (
-      Object.keys(eachCategory).forEach(categoryQuestion => {
-        newArry.push(categoryQuestion);
-      })
-     ))
-     return newArry
+      questionsByCategories && questionsByCategories.forEach(category => {
+      newArry.push(category.categoryName);
+    });
+    return newArry
   }
 
   function getStepContent(step) {
-    if(questionsByCategories) {
+    if(questionsByCategories && questionsByCategories[step]) {
       return renderQuestions(questionsByCategories[step])
     }
   }
   
-  const renderQuestions = ques => {
+  const updartedQuestionFields = (e, quesCode, fieldName, categoryName) => {
+    const tempCategories =  questionsByCategories;
+    questionsByCategories.forEach((category,catIdx) => {
+      if(category.categoryName === categoryName) {
+        if(category && category.questions) {
+        category.questions.forEach((eachQues, quesIdx) => {
+          if(eachQues.quesCode === quesCode) {
+            tempCategories[catIdx].questions[quesIdx][fieldName] = e.target.value;
+            }
+          });
+        }
+      }
+    });
+    const tempQuesSet = questionSet;
+    questionSet[qSetIndex] = tempCategories;
+    setQuestionSet(tempQuesSet);
+  }
+  
+  const renderQuestions = category => {
     let elm;
-    Object.keys(ques).forEach(categoryQuestion => {
-      elm = ques[categoryQuestion].map((eachQuestion, idx) => {
+      elm = category.questions.map((eachQuestion, idx) => {
         return(
           <>
            <Typography color="textSecondary" gutterBottom variant="h6">
             {eachQuestion.ques}
           </Typography>
           {eachQuestion.type === 'textArea' 
-            ? <TextareaAutosize rowsMin={5} colMin={5}/>
-            :  <input name={eachQuestion.ques} ref={register({ required: eachQuestion.isRequired })} />
+            ? <TextareaAutosize label={"Notes"} rowsMin={5} colMin={5} required={eachQuestion.isRequired}
+              error={formValidation.firstQuestionSetError ? validateField(eachQuestion.quesCode, 'notes', category.categoryName) : false}
+              onChange={(e)=> updartedQuestionFields(e, eachQuestion.quesCode, 'notes', category.categoryName)} 
+             />
+            :  <TextField 
+                id="outlined-full-width"
+                label={"Notes"} 
+                margin="normal"
+                variant="outlined"
+                autoComplete='off'
+                error={formValidation.firstQuestionSetError ? validateField(eachQuestion.quesCode, 'notes', category.categoryName) : false}
+                required={eachQuestion.isRequired}
+                onChange={(e)=> updartedQuestionFields(e, eachQuestion.quesCode, 'notes', category.categoryName)} 
+              />
           }
-          <input name={`priority${idx}`} ref={register({ required: eachQuestion.isRequired })} />
-          {errors.exampleRequired && <span>This field is required</span>}
+         <TextField 
+                id="outlined-full-width"
+                label={'Priority'} 
+                margin="normal"
+                variant="outlined"
+                autoComplete='off'
+                onChange={(e)=> updartedQuestionFields(e, eachQuestion.quesCode, 'priority', category.categoryName)} 
+              />
           </>
         )
       })
-    })
     return elm;
+  }
+  
+    const validateField = (quesCode, fieldName, categoryName) => {
+    if(qSetIndex === 0) {
+      if(formValidation.firstQuestionSetError && formValidation.firstQuestionSetError[categoryName] && 
+        formValidation.firstQuestionSetError[categoryName][quesCode] && 
+        !formValidation.firstQuestionSetError[categoryName][quesCode][fieldName]
+        ) {
+       return false;
+      }
+    }
+    return true;
+  }
+  
+  const validateQuestionForm = (questionSetErrors) => {
+    const activeStepLabel = steps[activeStep];
+    const categoryArr = Object.keys(questionSetErrors);
+
+    for(let i = 0; i <categoryArr.length; i+=1) {
+      if(categoryArr[i] === activeStepLabel){
+      const eachCategory = questionSetErrors[categoryArr[i]];
+        const quesCodeArr = Object.keys(eachCategory);
+        for(let j = 0; j < quesCodeArr.length; j+= 1){
+          const eachQuesCode = quesCodeArr[j];
+            if(eachCategory[eachQuesCode].notes) {
+              return false;
+          }
+        }
+      }
+    }
+    return true;
   }
 
   const handleNext = () => {
-    setDisableNext(true)
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const formValues = { firstQuestionSet: questionSet[0] };
+    const validity = validateAddProjectForm(formValues, formValidation);
+    let isQuestionSetFormValid ;
+    if(qSetIndex === 0 && validity.firstQuestionSetError) {
+      isQuestionSetFormValid = validateQuestionForm(validity.firstQuestionSetError);
+      console.log('after', isQuestionSetFormValid);
+    } else if( qSetIndex === 1) {
+    }
+    if(isQuestionSetFormValid){
+      setDisableNext(true)
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+    console.log('------------>', questionSet);
+    setFormValidation(validity);
   };
 
   const handleBack = () => {
@@ -84,12 +160,11 @@ export default function Question(props) {
     setActiveStep(0);
   };
   
-  // const submit = e => {
-  //   setDisableNext(false)
-  //   console.log(e)
-  // }
-  
-  const onSubmit = data => { console.log(data) }
+  const submit = e => {
+    e.preventDefault();
+    setDisableNext(false)
+    console.log(e)
+  }
 
   return (
     <Container>
@@ -99,7 +174,7 @@ export default function Question(props) {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              <form onSubmit={handleSubmit(onSubmit)} >
+              <form onSubmit={submit} >
                 {getStepContent(index)}
                   <div className={classes.actionsContainer}>
                   <Divider />
@@ -117,11 +192,9 @@ export default function Question(props) {
                         onClick={handleNext}
                         className={classes.button}
                         type="submit"
-                        disabled={disableNext}
                       >
                         {activeStep === steps && steps.length - 1 ? 'Finish' : 'Next'}
                       </Button>
-                      <input type="submit" />
                     </div>
                   </div>
               </form>

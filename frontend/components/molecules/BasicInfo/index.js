@@ -19,6 +19,7 @@ const BasicInfo = props => {
             variant="outlined"
             autoComplete='off'
             required
+            error={props.formValidation.basicInfoError ? props.formValidation.basicInfoError.reviewerName: false}
             onChange={(e) => updateBasicInfo('reviewerName', e.target.value)}
           />
           <TextField
@@ -28,6 +29,7 @@ const BasicInfo = props => {
             variant="outlined"
             autoComplete='off'
             required
+            error={props.formValidation.basicInfoError ? props.formValidation.basicInfoError.reviewerEmail:false}
             onChange={(e) => updateBasicInfo('reviewerEmail', e.target.value)}
           />
         </div>
@@ -39,6 +41,7 @@ const BasicInfo = props => {
           variant="outlined"
           autoComplete='off'
           required
+          error={props.formValidation.basicInfoError ? props.formValidation.basicInfoError.projectName: false}
           onChange={(e) => updateBasicInfo('projectName', e.target.value)}
         />
         <TextField
@@ -49,6 +52,7 @@ const BasicInfo = props => {
           variant="outlined"
           autoComplete='off'
           required
+          error={props.formValidation.basicInfoError ?props.formValidation.basicInfoError.clientName:false}
           onChange={(e) => updateBasicInfo('clientName', e.target.value)}
         />
         <TextField
@@ -60,10 +64,6 @@ const BasicInfo = props => {
           autoComplete='off'
           onChange={(e) => updateBasicInfo('phoneNumber', e.target.value)}
         />
-        {/* <Button variant="contained" color="primary" type="submit">
-          Complete Step
-        </Button> */}
-
     </Container>
   )
 };

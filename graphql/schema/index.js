@@ -1,18 +1,12 @@
 const { buildSchema } = require('graphql');
 
-module.exports = buildSchema(`
-    type Event {
-      _id: ID!
-      title: String!
-      description: String!
-      price: Float!
-    }
-    
+module.exports = buildSchema(`    
     type User {
       _id: ID!
       username: String!
       password: String
       relatedProjects: [Project!]
+      toBeReviewed: [Project!]
     }
     
     type Project {
@@ -43,12 +37,6 @@ module.exports = buildSchema(`
       tokenExpire: Int!
     }
     
-    input EventInput {
-      title: String!
-      description: String!
-      price: Float!
-    }
-    
     input UserInput {
       username: String!
       password: String!
@@ -56,6 +44,7 @@ module.exports = buildSchema(`
     
     input ProjectInput {
       creatorObjectID: String!
+      reviewerObjectID: String!
       basicInput: BasicInput!
     }
     
@@ -77,13 +66,14 @@ module.exports = buildSchema(`
     }
     
     type RootQuery {
-      events: [Event!]!
       project: [Project!]!
       login(username: String!, password: String!): AuthData!
+      getUserByName(username: String!): User!
+      getProjecByID(_id: String!): [Project!]!
+      getToBeReviwedByUser(_id: [String]): [Project!]
     }
     
     type RootMutation {
-      createEvent(eventInput: EventInput): Event
       createUser(userInput: UserInput): User
       createProject(projectInput: ProjectInput): Project
       updateProject(updatedProjectInput: UpdatedProjectInput): Project

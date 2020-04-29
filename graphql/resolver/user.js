@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
+const { getProjectByID } = require('./common');
 
 
 module.exports = {
@@ -36,5 +37,18 @@ module.exports = {
     });
     
     return { userId: user.id, token: token, tokenExpire: 1, username: user.username }
+  },
+  getUserByName: async ({username}) => {
+    const user = await User.findOne({username: username});
+    if(!user) {
+      throw new Error('user does not exist')
+    }
+    return { ...user._doc }
+  },
+  getToBeReviwedByUser: async args => {
+    const arr = args._id;
+    const updatedVal = arr[0].split(',');
+    const userProject = await getProjectByID(updatedVal)
+    return userProject;
   }
 }

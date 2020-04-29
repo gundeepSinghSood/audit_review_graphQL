@@ -23,7 +23,7 @@ import BoxContainer from '../../molecules/Box';
 import Table from '../../molecules/Table';
 import { logout } from '../../../utils/auth';
 import { withAuthSync } from '../../../utils/auth';
-
+import { toBeReviwedByUser } from './Dashboard.api';
 
 const drawerWidth = 240;
 
@@ -115,6 +115,7 @@ function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [username, setUsername] = React.useState('');
+  const [toBeReviwed, setToBeReviwed] = React.useState([]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -126,6 +127,11 @@ function Dashboard() {
   React.useEffect(() => {
     const userName = localStorage.getItem('username');
     setUsername(userName)
+    
+    toBeReviwedByUser(userName).then(res => {
+      console.log(res);
+      setToBeReviwed(res)
+    })
   }, [])
 
   return (
@@ -181,7 +187,7 @@ function Dashboard() {
             </Grid>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Table title="To be reviewed"/>
+                <Table title="To be reviewed" list={toBeReviwed}/>
               </Paper>
             </Grid>
             {/* Recent Orders */}

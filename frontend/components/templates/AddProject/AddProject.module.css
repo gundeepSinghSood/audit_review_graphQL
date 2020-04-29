@@ -1,0 +1,12 @@
+.backgroundRed {
+  background-color: #fe414d!important;
+}
+
+
+.backgroundRed button svg {
+  color: white!important;
+}
+
+.backgroundRed button svg text {
+  fill: #fe414d;
+}
