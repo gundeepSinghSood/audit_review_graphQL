@@ -65,10 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: '#000',
-    button: {
-      color: '#000'
-    }
+    color: '#fff',
   },
   drawerPaper: {
     position: 'relative',
@@ -148,15 +145,20 @@ function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
-          </Typography>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          </Typography> */}
+          {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Welcome {username}
-          </Typography>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            <Button color="secondary" onClick={logout}>logout</Button>
-          </Typography>
+          </Typography> */}
+          <Grid container>
+            <Grid item xs />
+            <Grid item>
+              <Typography component="h1" variant="h6" color="inherit" className={classes.title}>
+                <Button color="secondary" onClick={logout} className="white-color">logout</Button>
+              </Typography>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -182,7 +184,7 @@ function Dashboard() {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <BoxContainer />
+                <BoxContainer title={username}/>
               </Paper>
             </Grid>
             <Grid item xs={12} md={8} lg={9}>

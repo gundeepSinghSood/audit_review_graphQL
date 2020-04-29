@@ -23,6 +23,8 @@ export const logout = () => {
   cookies.remove("token");
    // To trigger the event listener we save some random data into the `logout` key
   window.localStorage.setItem("logout", Date.now()); // new
+  window.localStorage.removeItem('username');
+  window.localStorage.removeItem('userID');
   Router.push("/signup");
 };
 

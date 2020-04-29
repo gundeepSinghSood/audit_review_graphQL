@@ -29,8 +29,8 @@ export default function Orders(props) {
         {list
           ?
           <TableRow>
-            <TableCell>Project Name</TableCell>
-            <TableCell>Project Creator</TableCell>
+            <TableCell className="red-color">Project Name</TableCell>
+            <TableCell className="red-color">Project Creator</TableCell>
           </TableRow>
           : ''
         }

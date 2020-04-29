@@ -1,14 +1,23 @@
 import React from "react";
+import { makeStyles } from '@material-ui/core/styles';
 import { Button, Card, Container, Paper, Grid, Typography, CardContent, TextField, FormControl } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: '50px'
+  },
+}));
 
 const BasicInfo = props => {
   const {updateBasicInfo} = props;
+  const classes = useStyles();
   return(
     <Container>
-      <Typography color="textSecondary" gutterBottom variant="h4">
+      <div className={classes.root}>
+      {/* <Typography color="textSecondary" gutterBottom variant="h4" className="red-color">
           Basic Info
-        </Typography>
-        <Typography color="textSecondary" gutterBottom variant="subtitle1">
+        </Typography> */}
+        <Typography color="textSecondary" gutterBottom variant="h6" className="red-color">
           Reviewer Details
         </Typography>
         <div>
@@ -64,6 +73,7 @@ const BasicInfo = props => {
           autoComplete='off'
           onChange={(e) => updateBasicInfo('phoneNumber', e.target.value)}
         />
+        </div>
     </Container>
   )
 };

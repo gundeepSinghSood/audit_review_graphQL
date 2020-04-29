@@ -7,6 +7,7 @@ import { questionRes } from './question.mock';
 import InfoIcon from '@material-ui/icons/Info';
 import { validateAddProjectForm } from './validation';
 import { addProjectApi } from './addProject.api';
+import { withAuthSync } from '../../../utils/auth';
 
 import BasicInfo from '../../molecules/BasicInfo';
 import Question from '../../molecules/Questions';
@@ -14,7 +15,8 @@ import Question from '../../molecules/Questions';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    marginBottom: '100px'
+    marginBottom: '100px',
+    marginTop: '50px'
   },
   button: {
     marginRight: theme.spacing(1),
@@ -36,7 +38,7 @@ function getSteps() {
   return ['Bacis Info', 'Question Set 1', 'Question Set 2'];
 }
 
-export default function AddProject() {
+function AddProject() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
@@ -179,8 +181,9 @@ export default function AddProject() {
   }
 
   return (
+    <>
+    <Header/>
     <Container>
-      <Header/>
       <div className={classes.root}>
         <Stepper nonLinear activeStep={activeStep} className={`${styles.backgroundRed}`}>
           {steps.map((label, index) => {
@@ -238,5 +241,8 @@ export default function AddProject() {
         {error && <div>error</div>}
       </div>
     </Container>
+    </>
   );
 }
+
+export default withAuthSync(AddProject)

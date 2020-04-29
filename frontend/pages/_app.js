@@ -11,7 +11,7 @@ import {
   createMuiTheme,
   useMediaQuery
 } from "@material-ui/core";
-
+import '../styles/index.css';
 
 // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 // prefersDarkMode ? 'dark' : 'light'
