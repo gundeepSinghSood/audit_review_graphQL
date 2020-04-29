@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Questions.module.css';
-import { useForm } from 'react-hook-form'
 import { makeStyles } from '@material-ui/core/styles';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import { TextField, Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, Divider, TextareaAutosize, Container } from '@material-ui/core';
@@ -30,7 +29,6 @@ export default function Question(props) {
   const [stepCategories, setStepCategories] = useState([])
   const [disableNext, setDisableNext] = useState(true);
   const steps = getSteps();
-  const { register, handleSubmit, watch, errors } = useForm()
 
   
   function getSteps() {
