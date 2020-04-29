@@ -9,3 +9,7 @@
 .upper-case {
   text-transform: uppercase;
 }
+
+.margin-10 {
+  margin-left: 10px!important;
+}

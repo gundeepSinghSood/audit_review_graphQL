@@ -18,7 +18,21 @@ export const questionRes =
           "isRequired": true,
           "priority": "",
           "notes": ""
-        }
+        },
+        {
+          "quesCode": "requirementViewpoint-2",
+          "ques": "Do you have MoSCoW driven process for functional requirements and NFRs?",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "requirementViewpoint-2",
+          "ques": "Is multi-brand or theme based platform in scope?",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
       ]
     },
     {
@@ -30,15 +44,17 @@ export const questionRes =
           "isRequired": true,
           "priority": "",
           "notes": ""
-        }
-      ]
-    },
-    {
-      "categoryName": "functionalViewpoint2",
-      "questions": [
+        },
         {
-          "quesCode": "functionalViewpoint2-0",
-          "ques": "2 System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
+          "quesCode": "functionalViewpoint-1",
+          "ques": "How architectural perspectives impact functional requirements?",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+         {
+          "quesCode": "functionalViewpoint-2",
+          "ques": "Understand point of failures (in system layers and  Interactions between the layers)",
           "isRequired": true,
           "priority": "",
           "notes": ""
@@ -46,11 +62,39 @@ export const questionRes =
       ]
     },
     {
-      "categoryName": "functionalViewpoint3",
+      "categoryName": "developmentViewpoint",
       "questions": [
         {
-          "quesCode": "functionalViewpoint3-0",
-          "ques": "3 System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
+          "quesCode": "developmentViewpoint-0",
+          "ques": "What is the choice of Framework?",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "developmentViewpoint-1",
+          "ques": "What is the justification for the choice of framework?",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "developmentViewpoint-2",
+          "ques": "Community contribution and Reuse",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "developmentViewpoint-3",
+          "ques": "State Management",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "developmentViewpoint-4",
+          "ques": "Static Code Analysis Static Code Analysis ",
           "isRequired": true,
           "priority": "",
           "notes": ""
@@ -58,11 +102,72 @@ export const questionRes =
       ]
     },
     {
-      "categoryName": "functionalViewpoint4",
+      "categoryName": "operationalViewpoint",
       "questions": [
         {
-          "quesCode": "functionalViewpoint4-0",
-          "ques": "4 System's functional elements, their responsibilities, interfaces, and primary interactions. Diagrams.",
+          "quesCode": "operationalViewpoint-1",
+          "ques": "Do you have the right skills on the team(s)?",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "operationalViewpoint-2",
+          "ques": "README file is available having all instructions to get started.",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "operationalViewpoint-3",
+          "ques": "Project documentation",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "operationalViewpoint-4",
+          "ques": "Branching Strategy + Permissions.",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "operationalViewpoint-5",
+          "ques": "Build Plans",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "categoryName": "securityPrespective",
+      "questions": [
+        {
+          "quesCode": "securityPrespective-0",
+          "ques": "content Security Policy Reference",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "securityPrespective-0",
+          "ques": "Content Security Policy Reference",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "securityPrespective-0",
+          "ques": "X-Frame-Options",
+          "isRequired": true,
+          "priority": "",
+          "notes": ""
+        },
+        {
+          "quesCode": "securityPrespective-0",
+          "ques": "HTTP Strict Transport Security ",
           "isRequired": true,
           "priority": "",
           "notes": ""

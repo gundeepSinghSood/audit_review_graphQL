@@ -93,6 +93,7 @@ export default function Question(props) {
                 margin="normal"
                 variant="outlined"
                 autoComplete='off'
+                className="margin-10"
                 onChange={(e)=> updartedQuestionFields(e, eachQuestion.quesCode, 'priority', category.categoryName)} 
               />
           </>
@@ -166,7 +167,7 @@ export default function Question(props) {
   const submit = e => {
     e.preventDefault();
     setDisableNext(false)
-    console.log(e)
+    // console.log(e)
   }
 
   return (
